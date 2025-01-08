@@ -33,6 +33,8 @@ namespace EXICommand
     const u8 CMD_SEND_DUMPALL = 32;
     const u8 CMD_SEND_FRAMECOUNTERLOC = 33;
     const u8 CMD_CANCEL_MATCHMAKING = 34;
+    const u8 CMD_TRACK_EF_PARTICLE = 35;
+    const u8 CMD_UNTRACK_EF_PARTICLE = 36;
     
     const u8 CMD_MATCH_END = 4;
     const u8 CMD_SET_MATCH_SELECTIONS = 6;

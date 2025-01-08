@@ -5,6 +5,7 @@
 FrameData::FrameData()
 {
     randomSeed = 0;
+    skipFrame = false;
     for(int i = 0; i < MAX_NUM_PLAYERS; i++)
     {
         playerFrameDatas[i] = PlayerFrameData();

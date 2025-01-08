@@ -36,7 +36,7 @@ extern bool canRollback;
 extern bu32 frameCounter;
 extern bool shouldTrackAllocs;
 extern bool doDumpList;
-extern bool isRollback;
+extern bu32 isRollback;
 
 namespace FrameLogic {
     // Variables
@@ -74,6 +74,8 @@ namespace FrameLogic {
     void endMainLoop();
     void gfTaskProcessHook();
     __attribute__((naked)) void gfTaskProcessHook2();
+    __attribute__((naked)) void fixEffects();
+    __attribute__((naked)) void fixEffects2();
     void setFixStaleInputsTrue();
 }
 namespace FrameAdvance {
@@ -95,8 +97,13 @@ namespace FrameAdvance {
 
     // Hooks
     void fixPadInconsistency();
+    void fixVI();
+    void fixGX();
+    void trackEfParticle();
+    void untrackEfParticle();
     void updateLowHook();
     void handleFrameAdvanceHook();
+    __attribute__((naked)) void handleFrameAdvanceHook2();
     void turnOnAllAppropriatePorts();
     __attribute__((naked)) void moveUpdateSystem();
 }

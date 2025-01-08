@@ -73,7 +73,6 @@ EXIPacket::~EXIPacket() {
 }
 
 bool EXIPacket::Send() {
-    OSDisableInterrupts();
     bool success = false;
     if (!this->source || this->size <= 0) {
         OSReport("Invalid EXI packet source or size! source: %x  size: %u\n", source, size);
@@ -82,8 +81,6 @@ bool EXIPacket::Send() {
         EXIHooks::writeEXI(this->source, this->size, EXI_CHAN_1, 0, EXI_FREQ_32HZ);
         success = true;
     }
-
-    OSEnableInterrupts();
     return success;
 }
 

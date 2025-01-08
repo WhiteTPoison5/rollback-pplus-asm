@@ -21,3 +21,5 @@
 8002b7f4:push_gfPadStatusQueue__FPvPv
 8002b920:pop_gfPadStatusQueue__FPvPv
 800260b4:dump_gfMemoryPool__FPv
+8001789c:renderNormal__FPv
+8005f668:render_ecMgr__FPv
