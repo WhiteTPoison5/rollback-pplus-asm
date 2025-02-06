@@ -893,6 +893,26 @@ namespace FrameLogic {
         }
         Utils::RestoreRegs();
     }
+    void afterRender()
+    {
+       Utils::SaveRegs();
+       if (Netplay::IsInMatch()) {
+            bu32 frame = getCurrentFrame();
+            OSReport("~~~~~~~~~~~~~~~~ POST RENDER FRAME %d ~~~~~~~~~~~~~~~~\n", frame);
+            EXIPacket::CreateAndSend(EXICommand::CMD_COPY_EFFECTS_HEAP, &frame, sizeof(bu32));
+        }
+       Utils::RestoreRegs();
+    }
+    void beforeRender()
+    {
+       Utils::SaveRegs();
+       if (Netplay::IsInMatch()) {
+            bu32 frame = getCurrentFrame();
+            OSReport("~~~~~~~~~~~~~~~~ PRE RENDER FRAME %d ~~~~~~~~~~~~~~~~\n", frame);
+            EXIPacket::CreateAndSend(EXICommand::CMD_REPLACE_EFFECTS_HEAP, &frame, sizeof(bu32));
+        }
+       Utils::RestoreRegs();
+    }
     void beginningOfFrameLoop()
     {
         Utils::SaveRegs();
@@ -1759,13 +1779,15 @@ namespace RollbackHooks {
         //SyringeCore::syInlineHook(0x8005c7bc, reinterpret_cast<void*>(FrameAdvance::untrackEfParticle));
 
         // FrameLogic Namespace
-        SyringeCore::syInlineHook(0x8002dc74, reinterpret_cast<void*>(FrameLogic::gfTaskProcessHook));
-        SyringeCore::sySimpleHook(0x8002dc78, reinterpret_cast<void*>(FrameLogic::gfTaskProcessHook2));
-        SyringeCore::sySimpleHook(0x8005f830, reinterpret_cast<void*>(FrameLogic::fixEffects));
+        //SyringeCore::syInlineHook(0x8002dc74, reinterpret_cast<void*>(FrameLogic::gfTaskProcessHook));
+        //SyringeCore::sySimpleHook(0x8002dc78, reinterpret_cast<void*>(FrameLogic::gfTaskProcessHook2));
+        //SyringeCore::sySimpleHook(0x8005f830, reinterpret_cast<void*>(FrameLogic::fixEffects));
         //SyringeCore::sySimpleHookRel(0x000986D4, reinterpret_cast<void*>(FrameLogic::fixEffects2), Modules::SORA_MELEE);
         //SyringeCore::syInlineHook(0x8001739C, reinterpret_cast<void*>(FrameLogic::endMainLoop));
         
         SyringeCore::syInlineHook(0x8001739c, reinterpret_cast<void*>(FrameLogic::endFrame));
+        SyringeCore::syInlineHook(0x800173ac, reinterpret_cast<void*>(FrameLogic::beforeRender));
+        SyringeCore::syInlineHook(0x80017504, reinterpret_cast<void*>(FrameLogic::afterRender));
         SyringeCore::syInlineHook(0x800171b4, reinterpret_cast<void*>(FrameLogic::beginningOfMainGameLoop));
         SyringeCore::syInlineHook(0x80017350, reinterpret_cast<void*>(FrameLogic::beginningOfFrameLoop));
         SyringeCore::sySimpleHook(0x80017354, reinterpret_cast<void*>(FrameLogic::beginningOfFrameLoop2));

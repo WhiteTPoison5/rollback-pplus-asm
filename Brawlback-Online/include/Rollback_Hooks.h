@@ -60,6 +60,7 @@ namespace FrameLogic {
     void initFrameCounter();
     void updateFrameCounter();
     void beginningOfMainGameLoop();
+    void afterRender();
     void beginningOfFrameLoop();
     __attribute__((naked)) void beginningOfFrameLoop2();
     __attribute__((naked)) void beginningOfFrameLoop3();
